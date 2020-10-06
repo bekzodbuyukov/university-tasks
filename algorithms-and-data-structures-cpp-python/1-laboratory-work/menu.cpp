@@ -3,29 +3,36 @@
 //
 
 #include "header.h"
-#define NOT_EXISTING_COMMAND_ERROR_MESSAGE "РћРЁРР‘РљРђ: РќРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРµ РґРµР№СЃС‚РІРёРµ, РїРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°..."
+#include "Functions.cpp"
+//#include "Source.cpp"
+#include "Constructors.cpp"
+#define NOT_EXISTING_COMMAND_ERROR_MESSAGE "ОШИБКА: Не существующее действие, попробуйте снова..."
 #define BOTTOM_SEPARATOR "_-_-_-_-_-_-_-_-_-_-_-_-_"
+#define TYPE int
 
 int mainMenu() {
     string top_separator, bottom_separator;
-    top_separator = "\n_-_-_- Р“Р›РђР’РќРћР• РњР•РќР® -_-_-_\n";
+    top_separator = "\n_-_-_- ГЛАВНОЕ МЕНЮ -_-_-_\n";
     bottom_separator = "_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
     char action;
     cout << top_separator;
-    cout << "[1] - РїРµСЂРІС‹Р№ СЂРµР¶РёРј\n"
-            "[2] - РІС‚РѕСЂРѕР№ СЂРµР¶РёРј\n"
-            "[q] - Р·Р°РІРµСЂС€РёС‚СЊ СЂР°Р±РѕС‚Сѓ" << endl;
+    cout << "[1] - первый режим\n"
+        "[2] - второй режим\n"
+        "[q] - завершить работу" << endl;
     cout << BOTTOM_SEPARATOR << endl;
-    cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ: ";
+    cout << "Выберите действие: ";
     cin >> action;
 
     if (action == '1') {
         firstModeMenu();
-    } else if (action == '2') {
+    }
+    else if (action == '2') {
         secondModeMenu();
-    } else if (action == 'q') {
+    }
+    else if (action == 'q') {
         return 0;
-    } else {
+    }
+    else {
         cout << NOT_EXISTING_COMMAND_ERROR_MESSAGE << endl;
         mainMenu();
     }
@@ -35,29 +42,30 @@ int mainMenu() {
 
 int firstModeMenu() {
     string top_separator, bottom_separator;
-    top_separator = "\n_-_-_- РџР•Р Р’Р«Р™ Р Р•Р–РРњ -_-_-_\n";
+    top_separator = "\n_-_-_- ПЕРВЫЙ РЕЖИМ -_-_-_\n";
     bottom_separator = "_-_-_-_-_-_-_-_-_-_-_-_-_\n";
     char action;
     cout << top_separator;
 
-    cout << "[/] - СЃРѕР·РґР°С‚СЊ РјР°СЃСЃРёРІ Рё РїСЂРёРјРµРЅРёС‚СЊ СЃРѕСЂС‚РёСЂРѕРІРєСѓ СЃ РІС‹РІРѕРґРѕРј РЅР° С„Р°Р№Р»:\n"
-            "       [1] - РїСЂРѕСЃС‚С‹Рј РІС‹Р±РѕСЂРѕРј\n"
-            "       [2] - РїСЂРѕСЃС‚С‹РјРё РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "[0] - РІРµСЂРЅСѓС‚СЊСЃСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+    cout << "[/] - создать массив и применить сортировку с выводом на файл:\n"
+        "       [1] - простым выбором\n"
+        "       [2] - простыми включениями\n"
+        "[0] - вернуться в главное меню" << endl;
 
     cout << BOTTOM_SEPARATOR << endl;
-    cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ: ";
+    cout << "Выберите действие: ";
     cin >> action;
 
     if (action == '9') {
-        Array A;
+        Array<TYPE> A;
         A.fillByRange();
         // A.print();
         A.recordArrayToFile();
-        cout << "РњР°СЃСЃРёРІ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅ, Р·Р°РїРѕР»РЅРµРЅ Рё Р·Р°РїРёСЃР°РЅ РІ С„Р°Р№Р»!" << endl;
+        cout << "Массив успешно создан, заполнен и записан в файл!" << endl;
         firstModeMenu();
-    } else if (action == '1') {
-        Array A;
+    }
+    else if (action == '1') {
+        Array<TYPE> A;
         // operations
         A.fillByRange();
         A.recordArrayToFile();
@@ -67,8 +75,9 @@ int firstModeMenu() {
         A.recordArrayToFile();
         // getting back to menu
         firstModeMenu();
-    } else if (action == '2') {
-        Array A;
+    }
+    else if (action == '2') {
+        Array<TYPE> A;
         // operations
         A.fillByRange();
         A.recordArrayToFile();
@@ -78,9 +87,11 @@ int firstModeMenu() {
         A.recordArrayToFile();
         // getting back to menu
         firstModeMenu();
-    } else if (action == '0') {
+    }
+    else if (action == '0') {
         mainMenu();
-    } else {
+    }
+    else {
         cout << NOT_EXISTING_COMMAND_ERROR_MESSAGE << endl;
         firstModeMenu();
     }
@@ -90,77 +101,86 @@ int firstModeMenu() {
 
 int secondModeMenu() {
     string top_separator, bottom_separator;
-    top_separator = "\n_-_-_- Р’РўРћР РћР™ Р Р•Р–РРњ -_-_-_\n";
+    top_separator = "\n_-_-_- ВТОРОЙ РЕЖИМ -_-_-_\n";
     bottom_separator = "_-_-_-_-_-_-_-_-_-_-_-_-_\n";
     char action;
     cout << top_separator;
 
-    cout << "[/] - РІС‹Р±РёСЂР°С‚СЊ СЃРїРѕСЃРѕР± С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°:\n"
-            "   [/] - СЃР»СѓС‡Р°Р№РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ\n"
-            "       [1] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [2] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "   [/] - СѓРїРѕСЂСЏРґРѕС‡РµРЅРЅР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёР№\n"
-            "       [3] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [4] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "   [/] - Р·РЅР°С‡РµРЅРёСЏ СЂР°СЃРїРѕР»РѕР¶РµРЅС‹ РІ РѕР±СЂР°С‚РЅРѕРј РїРѕСЂСЏРґРєРµ\n"
-            "       [5] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [6] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "[7] - Р·Р°РґР°РІР°С‚СЊ РґРёР°РїР°Р·РѕРЅ Рё С€Р°Рі РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ РјР°СЃСЃРёРІР°\n"
-            "[0] - РІРµСЂРЅСѓС‚СЊСЃСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+    cout << "[/] - выбрать способ формирования элементов массива:\n"
+        "   [/] - случайные значения\n"
+        "       [1] - сортировка с выбором\n"
+        "       [2] - сортировка с включениями\n"
+        "   [/] - упорядоченная последовательность значений\n"
+        "       [3] - сортировка с выбором\n"
+        "       [4] - сортировка с включениями\n"
+        "   [/] - значения расположены в обратном порядке\n"
+        "       [5] - сортировка с выбором\n"
+        "       [6] - сортировка с включениями\n"
+        "[7] - задавать диапазон и шаг изменения размеров массива\n"
+        "[0] - вернуться в главное меню" << endl;
 
     cout << BOTTOM_SEPARATOR << endl;
-    cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ: ";
+    cout << "Выберите действие: ";
     cin >> action;
 
     if (action == '1') {
-        Array A;
+        Array<TYPE> A;
         A.fillByRange();
         A.recordArrayToFile();
         A.selectSort();
         A.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '2') {
-        Array B;
+    }
+    else if (action == '2') {
+        Array<TYPE> B;
         B.fillByRange();
         B.recordArrayToFile();
         B.insertSort();
         B.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '3') {
-        Array C;
+    }
+    else if (action == '3') {
+        Array<TYPE> C;
         C.orderedFill();
         C.recordArrayToFile();
         C.selectSort();
         C.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '4') {
-        Array D;
+    }
+    else if (action == '4') {
+        Array<TYPE> D;
         D.orderedFill();
         D.recordArrayToFile();
         D.insertSort();
         D.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '5') {
-        Array E;
+    }
+    else if (action == '5') {
+        Array<TYPE> E;
         E.unorderedFill();
         E.recordArrayToFile();
         E.selectSort();
         E.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '6') {
-        Array F;
+    }
+    else if (action == '6') {
+        Array<TYPE> F;
         F.unorderedFill();
         F.recordArrayToFile();
         F.insertSort();
         F.recordArrayToFile();
         secondModeMenu();
-    } else if (action == '7') {
-        Array J;
+    }
+    else if (action == '7') {
+        Array<TYPE> J;
         J.setArrayRangeAndIncreasingStep();
+        J.workWithArrays();
         secondModeMenu();
-    } else if (action == '0') {
+    }
+    else if (action == '0') {
         mainMenu();
-    } else {
+    }
+    else {
         cout << NOT_EXISTING_COMMAND_ERROR_MESSAGE << endl;
         firstModeMenu();
     }

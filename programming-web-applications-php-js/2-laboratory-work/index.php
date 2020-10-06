@@ -15,7 +15,7 @@
                 ГостеваяКнига
             </li>
             <li class="item right">
-                
+
             </li>
         </ul>
     </nav>
@@ -28,7 +28,7 @@
         <table>
             <tr>
                 <td>
-                    <?php 
+                    <?php
                     include 'comments.php';
                     ?>
                 </td>
@@ -36,7 +36,7 @@
                 <td>
                     <div>Отправить сообщение:</div>
                     <br>
-                    <form action="post_method_handler.php" method="post" name="commenting-form">
+                    <form action="post_handler.php" method="post" name="commenting-form">
                         <label for="user_name">Имя</label><br>
                         <input autocomplete="off" id="user_name" name="name" type="text" placeholder="Ваше имя" value="" required>
                         <br>

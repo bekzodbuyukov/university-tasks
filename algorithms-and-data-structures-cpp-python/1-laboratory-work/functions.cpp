@@ -3,25 +3,29 @@
 //
 
 #include "header.h"
+#define TYPE int
 
 // function which returns randomly generated number from 1 to 15
-int generateRandomNumber() {
+/*int generateRandomNumber() {
     int number;
     number = rand() % 15 + 1;
     return number;
-}
+}*/
 
 // function which returns randomly generated number of certain range
-int randomNumberInRange(int beginning, int end) {
-    int number, end_of_array;
+template <typename T>
+T randomNumberInRange(int beginning, int end) {
+    T number;
+    int end_of_array;
     end_of_array = end - beginning;
     number = (rand() % end_of_array) + beginning;
     return number;
 }
 
 // method which prints object's array
-void Array::print() {
-    cout << "Р’Р°С€ РјР°СЃСЃРёРІ: ";
+template <typename T>
+void Array<T>::print() {
+    cout << "Ваш массив: ";
     for (int i = 0; i < getSize(); ++i) {
         cout << array[i] << "\t";
     }
@@ -29,36 +33,38 @@ void Array::print() {
 }
 
 // method for creating and filling massive by hand
-void Array::fill() {
+template <typename T>
+void Array<T>::fill() {
     int arraySize;
-    cout << "\nР’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°: ";
+    cout << "\nВведите размер массива: ";
     cin >> arraySize;
     setSize(arraySize);
 
     setArray(new int[getSize()]);
     for (int i = 0; i < getSize(); ++i) {
-        cout << "Р§РёСЃР»Рѕ РґР»СЏ " << i + 1 << "-СЌР»РµРјРµРЅС‚Р°: ";
+        cout << "Число для " << i + 1 << "-элемента: ";
         cin >> array[i];
     }
 }
 
 // method for filling array by numbers of certain range
-void Array::fillByRange() {
+template <typename T>
+void Array<T>::fillByRange() {
     if (getRange() == 0) {
         int arraySize;
-        cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°: ";
+        cout << "Введите размер массива: ";
         cin >> arraySize;
         setSize(arraySize);
     }
 
-    setArray(new int[size]);
+    setArray(new T[size]);
 
     int beginningOfRange, endOfRange;
     if (getRange() == 0) {
-        cout << "РќР°С‡Р°Р»Рѕ РґРёР°РїР°Р·РѕРЅР°: ";
+        cout << "Начало диапазона: ";
         cin >> beginningOfRange;
 
-        cout << "РљРѕРЅРµС† РґРёР°РїР°Р·РѕРЅР°: ";
+        cout << "Конец диапазона: ";
         cin >> endOfRange;
     }
 
@@ -68,21 +74,22 @@ void Array::fillByRange() {
     // cout << "size: " << size << " beginning: " << beginning_of_range << " the end: " << end_of_range << endl;
 
     for (int i = 0; i < size; ++i) {
-        array[i] = randomNumberInRange(beginningOfRange, endOfRange);
+        array[i] = randomNumberInRange<TYPE>(beginningOfRange, endOfRange);
     }
 
 }
 
 // method for filling array by ordered numbers
-void Array::orderedFill() {
+template <typename T>
+void Array<T>::orderedFill() {
     if (getRange() == 0) {
         int arraySize;
-        cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°: ";
+        cout << "Введите размер массива: ";
         cin >> arraySize;
         setSize(arraySize);
     }
 
-    setArray(new int[getSize()]);
+    setArray(new T[getSize()]);
 
     for (int i = 0; i < size; ++i) {
         array[i] = i + 1;
@@ -90,15 +97,16 @@ void Array::orderedFill() {
 }
 
 // method for filling array by unordered numbers
-void Array::unorderedFill() {
+template <typename T>
+void Array<T>::unorderedFill() {
     if (getRange() == 0) {
         int arraySize;
-        cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°: ";
+        cout << "Введите размер массива: ";
         cin >> arraySize;
         setSize(arraySize);
     }
 
-    setArray(new int[getSize()]);
+    setArray(new T[getSize()]);
 
     for (int i = 0; i < size; ++i) {
         array[i] = size - i;
@@ -106,21 +114,25 @@ void Array::unorderedFill() {
 }
 
 // recording array to file
-void Array::recordArrayToFile() {
+template <typename T>
+void Array<T>::recordArrayToFile() {
     string fileName;
     if (getRange() == 0) {
-        cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·С‹РІР°РЅРёРµ .txt С„Р°Р№Р»Р°: ";
+        cout << "Введите называние .txt файла: ";
         cin >> fileName;
-    } else {
-        fileName += "file001";
+    }
+    else {
+        fileName = "file-001";
     }
 
     // cout << fileName << endl;
 
-    ofstream file(fileName + ".txt", ios::app);
+    // ofstream file(fileName + ".txt", fstream::app);
+    fstream file;
+    file.open(fileName + ".txt", std::fstream::out | std::fstream::app);
 
-    if(!file){
-        cout << "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё..." << endl;
+    if (!file) {
+        cout << "Не удалось открыть файл для записи..." << endl;
     }
 
     if (getRange() == 0) {
@@ -130,139 +142,153 @@ void Array::recordArrayToFile() {
             }
             file << " " << array[i];
         }
-        file << "\nРџРѕС‚СЂР°С‡РµРЅРѕ РІСЂРµРјРµРЅРё: " << getSpentTime() << " Рјc."
-             << "\nРЎСЂР°РІРЅРµРЅРёР№: " << getComparisons()
-             << "\nРџРµСЂРµСЃС‚Р°РЅРѕРІРѕРє: " << getRearrangements() << endl;
+        file << "\nПотрачено времени: " << getSpentTime() << " милли-сек."
+            << "\nСравнений: " << getComparisons()
+            << "\nПерестановок: " << getRearrangements() << endl;
         file << "\n\n\n";
-    } else {
+    }
+    else {
         string sortingMethodDefaultName = "method not used";
         if (getSortingMethodName().length() != sortingMethodDefaultName.length()) {
-            file << "РњРµС‚РѕРґ СЃРѕСЂС‚РёРІСЂРѕРєРё: " << getSortingMethodName() << endl;
+            file << "Метод сортивроки: " << getSortingMethodName() << endl;
         }
-        file << "РќР° СЃРѕСЂС‚РёСЂРѕРІРєСѓ " << getSize() << " СЌР»РµРјРµРЅС‚РѕРІ, РїРѕС‚СЂР°С‡РµРЅРѕ РІСЂРµРјРµРЅРё: "
-        << getSpentTime() << " РјСЃ.\n" << endl;
+        file << "На сортировку " << getSize() << " элементов, потрачено времени: "
+            << getSpentTime() << " мс.\n" << endl;
     }
+    file.close();
 }
 
 // sorting methods
 // Select Sort
-void Array::selectSort() {
+template <typename T>
+void Array<T>::selectSort() {
+    setSortingMethodName("selectSort");
+
     int i, j, x, k;
-    unsigned int startTime, endTime;
+    clock_t startTime, endTime;
     int comparisonsCounter, rearrangementCounter;
     comparisonsCounter = 0;
     rearrangementCounter = 0;
 
+    // time(&startTime);
     startTime = clock();
-    for(i = 0; i < size; i++) {   	// i - РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ С€Р°РіР°
+    for (i = 0; i < size; i++) {   	// i - номер текущего шага
         k = i;
         x = array[i];
 
-        for(j = i + 1; j < size; j++) {    // С†РёРєР» РІС‹Р±РѕСЂР° РЅР°РёРјРµРЅСЊС€РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+        for (j = i + 1; j < size; j++) {    // цикл выбора наименьшего элемента
             comparisonsCounter++;
             if (array[j] < x) {
                 k = j;
                 rearrangementCounter++;
-                x = array[j];            // k - РёРЅРґРµРєСЃ РЅР°РёРјРµРЅСЊС€РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+                x = array[j];            // k - индекс наименьшего элемента
             }
-               	// РјРµРЅСЏРµРј РјРµСЃС‚Р°РјРё РЅР°РёРјРµРЅСЊС€РёР№ СЃ a[i]
+            // меняем местами наименьший с a[i]
         }
         rearrangementCounter++;
         array[k] = array[i];
         array[i] = x;
 
     }
+    // time(&endTime);
     endTime = clock();
-    setSpentTime((endTime - startTime) / 1000.0);
+    setSpentTime(endTime - startTime);
     setComparisons(comparisonsCounter);
     setRearrangements(rearrangementCounter);
     if (getRange() == 0) {
-        cout << "РџРѕС‚СЂР°С‡РµРЅРѕ РІСЂРµРјРµРЅРё: " << getSpentTime() << " РјРёР»Р»Рё-СЃРµРє."
-             << "\nРЎСЂР°РІРЅРµРЅРёР№: " << getComparisons()
-             << "\nРџРµСЂРµСЃС‚Р°РЅРѕРІРѕРє: " << getRearrangements() << endl;
+        cout << "Потрачено времени: " << getSpentTime() << " милли-сек."
+            << "\nСравнений: " << getComparisons()
+            << "\nПерестановок: " << getRearrangements() << endl;
     }
 }
 
 // Insert Sort
-void Array::insertSort() {
+template <typename T>
+void Array<T>::insertSort() {
+    setSortingMethodName("insertSort");
+
     int i, j, x;
-    unsigned int startTime, endTime;
+    clock_t startTime, endTime;
     int comparisonsCounter, rearrangementCounter;
     comparisonsCounter = 0;
     rearrangementCounter = 0;
 
     startTime = clock();
-    for (i = 0; i < size; i++) {  // С†РёРєР» РїСЂРѕС…РѕРґРѕРІ, i - РЅРѕРјРµСЂ РїСЂРѕС…РѕРґР°
+    for (i = 0; i < size; i++) {  // цикл проходов, i - номер прохода
         x = array[i];
 
-        // РїРѕРёСЃРє РјРµСЃС‚Р° СЌР»РµРјРµРЅС‚Р° РІ РіРѕС‚РѕРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
+        // поиск места элемента в готовой последовательности
         for (j = i - 1; j >= 0 && array[j] > x; j--) {
             // array[j + 1] > array[j];
             comparisonsCounter++;
             rearrangementCounter++;
-            array[j + 1] = array[j];    // СЃРґРІРёРіР°РµРј СЌР»РµРјРµРЅС‚ РЅР°РїСЂР°РІРѕ, РїРѕРєР° РЅРµ РґРѕС€Р»Рё
+            array[j + 1] = array[j];    // сдвигаем элемент направо, пока не дошли
         }
         rearrangementCounter++;
-        // РјРµСЃС‚Рѕ РЅР°Р№РґРµРЅРѕ, РІСЃС‚Р°РІРёС‚СЊ СЌР»РµРјРµРЅС‚
+        // место найдено, вставить элемент
         array[j + 1] = x;
     }
     endTime = clock();
-    setSpentTime((endTime - startTime) / 1000.0);
+    setSpentTime((endTime - startTime));
     setComparisons(comparisonsCounter);
     setRearrangements(rearrangementCounter);
     if (getRange() == 0) {
-        cout << "РџРѕС‚СЂР°С‡РµРЅРѕ РІСЂРµРјРµРЅРё: " << getSpentTime() << " РјРёР»Р»Рё-СЃРµРє."
-             << "\nРЎСЂР°РІРЅРµРЅРёР№: " << getComparisons()
-             << "\nРџРµСЂРµСЃС‚Р°РЅРѕРІРѕРє: " << getRearrangements() << endl;
+        cout << "Потрачено времени: " << getSpentTime() << " милли-сек."
+            << "\nСравнений: " << getComparisons()
+            << "\nПерестановок: " << getRearrangements() << endl;
     }
-
+    
 }
 
 // function for creating array by given range and increasing step
-void Array::setArrayRangeAndIncreasingStep() {
+template <typename T>
+void Array<T>::setArrayRangeAndIncreasingStep() {
     int arrayRange;
-    cout << "Р”РёР°РїР°Р·РѕРЅ РјРёСЃСЃРёРІР°: ";
+    cout << "Диапазон миссива: ";
     cin >> arrayRange;
 
     int increasingStep;
-    cout << "Р’РІРµРґРёС‚Рµ С€Р°Рі РёР·РјРµРЅРµРЅРёСЏ: ";
-    cin >> increasingStep;
+    cout << "Введите шаг изменения: ";
+    cin >> increasingStep;    
 
     if (increasingStep > arrayRange) {
-        cout << "РЁР°Рі РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ С‡РµРј РґРёР°РїР°Р·РѕРЅ!" << endl;
+        cout << "Шаг не может быть больше чем диапазон!" << endl;
         setArrayRangeAndIncreasingStep();
-    } else if (increasingStep == arrayRange) {
-        cout << "РЁР°Рі РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂР°РІРµРЅ РґРёР°РїР°Р·РѕРЅСѓ!" << endl;
+    }
+    else if (increasingStep == arrayRange) {
+        cout << "Шаг не может быть равен диапазону!" << endl;
         setArrayRangeAndIncreasingStep();
-    } else if (increasingStep < 0) {
-        cout << "РЁР°Рі СѓРІРµР»РёС‡РµРЅРёСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј!" << endl;
+    }
+    else if (increasingStep < 0) {
+        cout << "Шаг увеличения не может быть отрицательным!" << endl;
         setArrayRangeAndIncreasingStep();
     }
 
     setRange(arrayRange);
     setStep(increasingStep);
 
-    workWithArrays();
+    // workWithArrays();
 }
 
 // function for working with arrays size of which are in given range (and increases by increasingStep)
-void Array::workWithArrays() {
+template <typename T>
+void Array<T>::workWithArrays() {
     int stepsSize;
     stepsSize = getRange() / getStep();
 
     char action;
-    cout << "Р’С‹Р±РµСЂРёС‚Рµ РјРµС‚РѕРґ Р·Р°РїРѕР»РЅРµРЅРёСЏ РґР°РЅРЅС‹С… Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ:\n"
-            "   - СЃР»СѓС‡Р°Р№РЅС‹Рµ С‡РёСЃР»Р°:\n"
-            "       [1] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [2] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "   - СѓРїРѕСЂСЏРґРѕС‡РµРЅРЅР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ\n"
-            "       [3] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [4] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "   - РЅРµ СѓРїРѕСЂСЏРґРѕС‡РµРЅРЅР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ\n"
-            "       [5] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІС‹Р±РѕСЂРѕРј\n"
-            "       [6] - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃ РІРєР»СЋС‡РµРЅРёСЏРјРё\n"
-            "[0] - РІРµСЂРЅСѓС‚СЊСЃСЏ РЅР° РІС‚РѕСЂРѕР№ СЂРµР¶РёРј" << endl;
-    cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ: ";
+    cout << "Выберите метод заполнения данных и сортировку:\n"
+        "   - случайные числа:\n"
+        "       [1] - сортировка с выбором\n"
+        "       [2] - сортировка с включениями\n"
+        "   - упорядоченная последовательность\n"
+        "       [3] - сортировка с выбором\n"
+        "       [4] - сортировка с включениями\n"
+        "   - не упорядоченная последовательность\n"
+        "       [5] - сортировка с выбором\n"
+        "       [6] - сортировка с включениями\n"
+        "[0] - вернуться на второй режим" << endl;
+    cout << "Выберите действие: ";
     cin >> action;
 
     int currentArraySize = 0;
@@ -275,9 +301,10 @@ void Array::workWithArrays() {
             setSortingMethodName("selectSort");
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '2') {
+    }
+    else if (action == '2') {
         for (int i = 0; i < stepsSize; ++i) {
             currentArraySize += getStep();
             setSize(currentArraySize);
@@ -286,9 +313,10 @@ void Array::workWithArrays() {
             setSortingMethodName("insertSort");
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '3') {
+    }
+    else if (action == '3') {
         for (int i = 0; i < stepsSize; ++i) {
             currentArraySize += getStep();
             setSize(currentArraySize);
@@ -296,9 +324,10 @@ void Array::workWithArrays() {
             selectSort();
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '4') {
+    }
+    else if (action == '4') {
         for (int i = 0; i < stepsSize; ++i) {
             currentArraySize += getStep();
             setSize(currentArraySize);
@@ -306,9 +335,10 @@ void Array::workWithArrays() {
             insertSort();
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '5') {
+    }
+    else if (action == '5') {
         for (int i = 0; i < stepsSize; ++i) {
             currentArraySize += getStep();
             setSize(currentArraySize);
@@ -316,9 +346,10 @@ void Array::workWithArrays() {
             selectSort();
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '6') {
+    }
+    else if (action == '6') {
         for (int i = 0; i < stepsSize; ++i) {
             currentArraySize += getStep();
             setSize(currentArraySize);
@@ -326,11 +357,13 @@ void Array::workWithArrays() {
             insertSort();
             recordArrayToFile();
         }
-        cout << "РџСЂРѕС†РµСЃСЃ Р·Р°РєРѕРЅС‡РёР»СЃСЏ!" << endl;
+        cout << "Процесс закончился!" << endl;
         workWithArrays();
-    } else if (action == '0') {
+    }
+    else if (action == '0') {
         secondModeMenu();
-    } else {
+    }
+    else {
         workWithArrays();
     }
 

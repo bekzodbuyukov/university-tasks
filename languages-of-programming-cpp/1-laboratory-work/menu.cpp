@@ -4,92 +4,119 @@
 
 #include "header.h"
 
-#define CHOOSE_ACTION "\nР’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ: "
-#define NOT_CORRECT_ACTION_ERROR "РћРЁРР‘РљРђ: Р’С‹ РІС‹Р±СЂР°Р»Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРµ РґРµР№СЃС‚РІРёРµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р° РїРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°."
+#define CHOOSE_ACTION "\nВыберите действие: "
+#define NOT_CORRECT_ACTION_ERROR "ОШИБКА: Вы выбрали не существующее действие, пожалуйста попробуйте снова."
 #define BOTTOM_DIVIDER "-=-=-=-=-=-=-=-=-=-=-=-\n"
+#define CLEAR_CMD system("cls");
 
 // Main Menu Function
 int mainMenu() {
-    string menuHeader = "\n-=-=-=-= РњР•РќР® =-=-=-=-\n";
+    string menuHeader = "\n-=-=-=-= МЕНЮ =-=-=-=-\n";
     char action;
 
     cout << menuHeader;
-    cout << "[1] - СЃС‚Р°С‚РёС‡РµСЃРєРёР№ СЂРµР¶РёРј\n"
-            "[2] - РґРёРЅР°РјРёС‡РµСЃРєРёР№ СЂРµР¶РёРј\n"
-            "[m] - РІРµСЂРЅСѓС‚СЊ РјРµРЅСЋ\n"
-            "[q] - Р·Р°РІРµСЂС€РёС‚СЊ СЂР°Р±РѕС‚Сѓ" << endl;
+    cout << "[1] - статический режим\n"
+        "[2] - динамический режим\n"
+        "[m] - вернуть меню\n"
+        "[q] - завершить работу" << endl;
     cout << BOTTOM_DIVIDER;
 
     cout << CHOOSE_ACTION;
     cin >> action;
 
     if (action == '1') {
+        CLEAR_CMD
         staticModeMenu();
-    } else if (action == '2') {
+    }
+    else if (action == '2') {
+        CLEAR_CMD
         preEnterToDynamicModeMenu();
-    } else if (action == 'm') {
+    }
+    else if (action == 'm') {
+        CLEAR_CMD
+        system("cls");
         mainMenu();
-    } else if (action == 'q') {
+    }
+    else if (action == 'q') {
         return 0;
-    } else {
+    }
+    else {
+        CLEAR_CMD
         cout << NOT_CORRECT_ACTION_ERROR << endl;
         mainMenu();
     }
+
 
     return 0;
 }
 
 // Static Mode Menu Function
 int staticModeMenu() {
-    string menuHeader = "\n-= РЎРўРђРўРР§Р•РЎРљРР™ Р Р•Р–РРњ =-\n";
+    string menuHeader = "\n-= СТАТИЧЕСКИЙ РЕЖИМ =-\n";
     cout << menuHeader;
 
-    cout << "[1] - РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ\n"
-            "[2] - РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё\n"
-            "[3] - РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ\n"
-            "[4] - СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ РґР»СЏ РѕРґРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°\n"
-            "[5] - Р·Р°РїРёСЃСЊ РѕР±СЉРµРєС‚Р° РІ С„Р°Р№Р»\n"
-            "[m] - РІРµСЂРЅСѓС‚СЊ РјРµРЅСЋ\n"
-            "[0] - РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+    cout << "[1] - конструктор по умолчанию\n"
+        "[2] - конструктор с параметрами\n"
+        "[3] - конструктор копирования\n"
+        "[4] - установить данные для одного объекта\n"
+        "[5] - запись объекта в файл\n"
+        "[m] - вернуть меню\n"
+        "[0] - главное меню" << endl;
     cout << BOTTOM_DIVIDER;
 
     char action;
     cout << CHOOSE_ACTION;
     cin >> action;
-
+    
     TPatient A;
-    TPatient B("Р‘РµРєР·РѕРґ Р‘СѓСЋРєРѕРІ", 2001, 13, "Р—РґРѕСЂРѕРІ!");
+    TPatient B(0, "Бекзод Буюков", 2001, 13, "Здоров!");
     const TPatient& C(B);
     TPatient D;
     TPatient E;
 
     if (action == '1') {
-        cout << "\nРљРѕРЅС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ:\n";
+        CLEAR_CMD
+        cout << "\nКонтруктор по умолчанию:\n";
         A.printObjectData();
         staticModeMenu();
-    } else if (action == '2') {
-        cout << "\nРљРѕРЅС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё:\n";
+    }
+    else if (action == '2') {
+        CLEAR_CMD
+        cout << "\nКонтруктор с параметрами:\n";
         B.printObjectData();
         staticModeMenu();
-    } else if (action == '3') {
-        cout << "\nРљРѕРЅС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ:\n";
+    }
+    else if (action == '3') {
+        CLEAR_CMD
+        cout << "\nКонтруктор копирования:\n";
         C.printObjectData();
         staticModeMenu();
-    } else if (action == '4') {
+    }
+    else if (action == '4') {
+        CLEAR_CMD
         D.set();
-        cout << "\nР РµР·СѓР»СЊС‚Р°С‚:\n";
+        CLEAR_CMD
+        cout << "\nРезультат:\n";
         D.printObjectData();
         staticModeMenu();
-    } else if (action == '5') {
+    }
+    else if (action == '5') {
+        CLEAR_CMD
         ofstream openedFile;
         openedFile = openFileForWriting();
         E.recordObjectDataToFile(openedFile);
         staticModeMenu();
-    } else if (action == 'm') {
+    }
+    else if (action == 'm') {
+        CLEAR_CMD
         staticModeMenu();
-    } else if (action == '0') {
+    }
+    else if (action == '0') {
+        CLEAR_CMD
         mainMenu();
-    } else {
+    }
+    else {
+        CLEAR_CMD
         cout << NOT_CORRECT_ACTION_ERROR << endl;
         staticModeMenu();
     }
@@ -105,27 +132,27 @@ void preEnterToDynamicModeMenu() {
     int size;
     size = getArraySize(readingFile);
 
-    TPatient * array;
+    TPatient* array;
     array = fillFromFile(readingFile, size);
-
+    CLEAR_CMD
     dynamicModeMenu(array, size);
 }
 
 // Dynamic Mode Menu Function
-int dynamicModeMenu(TPatient * array, int size) {
-    string menuHeader = "\n-= Р”РРќРђРњРР§Р•РЎРљРР™ Р Р•Р–РРњ =-\n";
+int dynamicModeMenu(TPatient* array, int size) {
+    string menuHeader = "\n-= ДИНАМИЧЕСКИЙ РЕЖИМ =-\n";
     cout << menuHeader;
-    cout << "[/] - РІС‹РІРѕРґ:\n"
-            "       [1] - РґР°РЅРЅС‹С… РјР°СЃСЃРёРІР° РІ С‚РµСЂРјРёРЅР°Р»\n"
-            "       [2] - РїРѕ РґРёР°РіРЅРѕР·Сѓ Рё РґРёР°РїР°Р·РѕРЅСѓ РіРѕРґР° СЂРѕР¶РґРµРЅРёСЏ\n"
-            "       [3] - РїРѕ РёРЅС‚РµСЂРІР°Р»Сѓ РЅРѕРјРµСЂР° РјРµРґРёС†РёРЅСЃРєРѕР№ РєР°СЂС‚С‹\n"
-            "       [4] - РїР°С†РёРµРЅС‚РѕРІ РїРѕСЃР»Рµ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РіРѕРґР° СЂРѕР¶РґРµРЅРёСЏ\n"
-            "[/] - РІС‹РІРѕРґ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РіРѕРґР° СЂРѕР¶РґРµРЅРёСЏ:\n"
-            "       [5] - РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ (>)\n"
-            "       [6] - РїРѕ СѓРјРµРЅСЊС€РµРЅРёСЋ  (<)\n"
-            "[7] - Р·Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ РІ С„Р°Р№Р»\n"
-            "[m] - РІРµСЂРЅСѓС‚СЊ РјРµРЅСЋ\n"
-            "[0] - РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+    cout << "[/] - вывод:\n"
+        "       [1] - данных массива в терминал\n"
+        "       [2] - по диагнозу и диапазону года рождения\n"
+        "       [3] - по интервалу номера медицинской карты\n"
+        "       [4] - пациентов после указанного года рождения\n"
+        "[/] - вывод сортировкой года рождения:\n"
+        "       [5] - по возрастанию (>)\n"
+        "       [6] - по уменьшению  (<)\n"
+        "[7] - записать данные в файл\n"
+        "[m] - вернуть меню\n"
+        "[0] - главное меню" << endl;
     cout << BOTTOM_DIVIDER;
 
     char action;
@@ -133,33 +160,52 @@ int dynamicModeMenu(TPatient * array, int size) {
     cin >> action;
 
     if (action == '1') {
+        CLEAR_CMD
         printData(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '2') {
+    }
+    else if (action == '2') {
+        CLEAR_CMD
         filterByDiagnosisAndYearOfBirth(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '3') {
+    }
+    else if (action == '3') {
+        CLEAR_CMD
         filterByMedicineCardNumber(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '4') {
+    }
+    else if (action == '4') {
+        CLEAR_CMD
         filterByYearOfBirth(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '5') {
+    }
+    else if (action == '5') {
+        CLEAR_CMD
         sortByYearOfBirthIncreasingMode(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '6') {
+    }
+    else if (action == '6') {
+        CLEAR_CMD
         sortByYearOfBirthDecreasingMode(array, size);
         dynamicModeMenu(array, size);
-    } else if (action == '7') {
+    }
+    else if (action == '7') {
+        CLEAR_CMD
         ofstream writingFile;
         writingFile = openFileForWriting();
         recordDataTableToFile(array, size, writingFile);
         dynamicModeMenu(array, size);
-    } else if (action == 'm') {
+    }
+    else if (action == 'm') {
+        CLEAR_CMD
         dynamicModeMenu(array, size);
-    } else if (action == '0') {
+    }
+    else if (action == '0') {
+        CLEAR_CMD
         mainMenu();
-    } else {
+    }
+    else {
+        CLEAR_CMD
         cout << NOT_CORRECT_ACTION_ERROR << endl;
         dynamicModeMenu(array, size);
     }

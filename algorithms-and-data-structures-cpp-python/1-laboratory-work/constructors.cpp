@@ -1,11 +1,8 @@
-//
-// Created by bek on 21.09.2020.
-//
-
 #include "header.h"
 
 // default constructor
-Array::Array() {
+template <typename T>
+Array<T>::Array() {
     setSize(0);
     setSpentTime(0);
     setRearrangements(0);
@@ -23,86 +20,109 @@ Array::Array() {
 }
 
 // copying constructor
-Array::Array(const Array &A) {
+template <typename T>
+Array<T>::Array(const Array& A) {
     this->setSize(A.getSize());
-    this->setArray(A.getArray());
+    // this->setArray(A.getArray());
+    this->setArray(new T[getSize()]);
+    for (int i = 0; i < A.getArray(); i++) {
+        this->array[i] = A.array[i];
+    }
 }
 
 // constructor with parameters
-Array::Array(int * newArray, int newSize) {
+template <typename T>
+Array<T>::Array(int* newArray, int newSize) {
     this->setSize(newSize);
     this->setArray(newArray);
 }
 
 // destructor: deleting object array and assigning nullptr to array pointer
-Array::~Array() {
+template <typename T>
+Array<T>::~Array() {
     delete[] array;
     this->array = nullptr;
 }
 
 // Getters
-int Array::getSize() const {
+template <typename T>
+int Array<T>::getSize() const {
     return size;
 }
 
-int *Array::getArray() const {
+template <typename T>
+int* Array<T>::getArray() const {
     return array;
 }
 
-double Array::getSpentTime() const {
+template <typename T>
+double Array<T>::getSpentTime() const {
     return spentTime;
 }
 
-int Array::getComparisons() const {
+template <typename T>
+int Array<T>::getComparisons() const {
     return comparisons;
 }
 
-int Array::getRearrangements() const {
+template <typename T>
+int Array<T>::getRearrangements() const {
     return rearrangements;
 }
 
-int Array::getStep() const {
+template <typename T>
+int Array<T>::getStep() const {
     return step;
 }
 
-int Array::getRange() const {
+template <typename T>
+int Array<T>::getRange() const {
     return range;
 }
 
 // Setters
-void Array::setSize(int newSize) {
+template <typename T>
+void Array<T>::setSize(int newSize) {
     Array::size = newSize;
 }
 
-void Array::setArray(int *newArray) {
+template <typename T>
+void Array<T>::setArray(T* newArray) {
     Array::array = newArray;
 }
 
-void Array::setSpentTime(double spentTime) {
+template <typename T>
+void Array<T>::setSpentTime(double spentTime) {
     Array::spentTime = spentTime;
 }
 
-void Array::setComparisons(int comparisons) {
+template <typename T>
+void Array<T>::setComparisons(int comparisons) {
     Array::comparisons = comparisons;
 }
 
-void Array::setRearrangements(int rearrangements) {
+template <typename T>
+void Array<T>::setRearrangements(int rearrangements) {
     Array::rearrangements = rearrangements;
 }
 
-void Array::setStep(int step) {
+template <typename T>
+void Array<T>::setStep(int step) {
     Array::step = step;
 }
 
-void Array::setRange(int range) {
+template <typename T>
+void Array<T>::setRange(int range) {
     Array::range = range;
 }
 
-const string &Array::getSortingMethodName() const {
+template <typename T>
+const string& Array<T>::getSortingMethodName() const {
     return sortingMethodName;
 }
 
-void Array::setSortingMethodName(const string &sortingMethodName) {
+template <typename T>
+void Array<T>::setSortingMethodName(const string& sortingMethodName) {
     Array::sortingMethodName = sortingMethodName;
 }
 

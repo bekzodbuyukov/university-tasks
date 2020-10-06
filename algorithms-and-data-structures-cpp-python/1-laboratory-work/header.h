@@ -1,6 +1,6 @@
-//
-// Created by bek on 12.09.2020.
-//
+#pragma once
+#ifndef HEADER_H
+#define HEADER_H
 
 #include <iostream>
 #include <cstdlib>
@@ -8,24 +8,29 @@
 #include <random>
 #include <ostream>
 #include <fstream>
+#include <Windows.h>
+#include <time.h>
 using namespace std;
 
+//using namespace std::chrono;
+
 // class Array
+template <class T>
 class Array {
     // class fields
-    int size{};                                 // array size
-    int* array{};                               // array pointer
-    double spentTime{};                           // time spent for sorting
-    int comparisons{};                            // comparisons number while sorting
-    int rearrangements{};                         // rearrangements number while sorting
+    int size{};                                       // array size
+    T* array{};                                       // array pointer
+    clock_t spentTime{};                              // time spent for sorting
+    int comparisons{};                                // comparisons number while sorting
+    int rearrangements{};                             // rearrangements number while sorting
     int step{};
     int range{};
     string sortingMethodName;
 public:
     // constructors
     Array();                                    // default constructor
-    Array(int * newArray, int newSize);         // constructor with parameters
-    Array(const Array & A);                     // copying constructor
+    Array(int* newArray, int newSize);          // constructor with parameters
+    Array(const Array& A);                      // copying constructor
     ~Array();                                   // destructor
 
     // methods
@@ -40,23 +45,23 @@ public:
 
     // Getters
     [[nodiscard]] int getSize() const;
-    [[nodiscard]] int *getArray() const;
+    [[nodiscard]] int* getArray() const;
     [[nodiscard]] double getSpentTime() const;
     [[nodiscard]] int getComparisons() const;
     [[nodiscard]] int getRearrangements() const;
     [[nodiscard]] int getStep() const;
     [[nodiscard]] int getRange() const;
-    [[nodiscard]] const string &getSortingMethodName() const;
+    [[nodiscard]] const string& getSortingMethodName() const;
 
     // Setters
     void setSize(int size);
-    void setArray(int *array);
+    void setArray(T* array);
     void setSpentTime(double spentTime);
     void setComparisons(int comparisons);
     void setRearrangements(int rearrangements);
     void setStep(int step);
     void setRange(int range);
-    void setSortingMethodName(const string &sortingMethodName);
+    void setSortingMethodName(const string& sortingMethodName);
 
     // sorting methods
     void insertSort();
@@ -64,13 +69,17 @@ public:
 };
 
 // other functions
-int generateRandomNumber();
-int randomNumberInRange(int beginning, int end);
+// int generateRandomNumber();
+
+template <typename T>
+T randomNumberInRange(int beginning, int end);
 
 // menu functions
 int mainMenu();
 int firstModeMenu();
 int secondModeMenu();
 
-template<class T>
-void selectSort(T a[], long size);
+//template<class T>
+//void selectSort(T a[], long size);
+
+#endif

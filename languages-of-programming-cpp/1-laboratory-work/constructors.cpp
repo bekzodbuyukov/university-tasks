@@ -8,14 +8,17 @@
 
 // default constructor
 TPatient::TPatient() {
-    setFullName("С„РёРѕ РїР°С†РёРµРЅС‚Р°");
+    setIndex(0);
+    setFullName("фио пациента");
     setYearOfBirth(2020);
     setMedicineCardNumber(0);
-    setDiagnosis("РґРёР°РіРЅРѕР· РїР°С†РёРµРЅС‚Р°");
+    setDiagnosis("диагноз пациента");
 }
 
 // constructor with parameters
-TPatient::TPatient(const string& fullName, int yearOfBirth, int medicineCardNumber, const string& patientDiagnosis) {
+TPatient::TPatient(int indexNumber, const string& fullName, int yearOfBirth,
+    int medicineCardNumber, const string& patientDiagnosis) {
+    setIndex(indexNumber);
     setFullName(fullName);
     setYearOfBirth(yearOfBirth);
     setMedicineCardNumber(medicineCardNumber);
@@ -23,7 +26,8 @@ TPatient::TPatient(const string& fullName, int yearOfBirth, int medicineCardNumb
 }
 
 // copying constructor
-TPatient::TPatient(const TPatient &T) {
+TPatient::TPatient(const TPatient& T) {
+    setIndex(T.getIndex());
     setFullName(T.getFullName());
     setYearOfBirth(T.getYearOfBirth());
     setMedicineCardNumber(T.getMedicineCardNumber());
@@ -31,7 +35,7 @@ TPatient::TPatient(const TPatient &T) {
 }
 
 // Getters
-const string &TPatient::getFullName() const {
+const string& TPatient::getFullName() const {
     return fullName;
 }
 
@@ -43,12 +47,16 @@ int TPatient::getMedicineCardNumber() const {
     return medicineCardNumber;
 }
 
-const string &TPatient::getDiagnosis() const {
+const string& TPatient::getDiagnosis() const {
     return diagnosis;
 }
 
+int TPatient::getIndex() const {
+    return index;
+}
+
 // Setters
-void TPatient::setFullName(const string &newFullName) {
+void TPatient::setFullName(const string& newFullName) {
     fullName = newFullName;
 }
 
@@ -60,8 +68,12 @@ void TPatient::setMedicineCardNumber(int newMedicineCardNumber) {
     medicineCardNumber = newMedicineCardNumber;
 }
 
-void TPatient::setDiagnosis(const string &newDiagnosis) {
+void TPatient::setDiagnosis(const string& newDiagnosis) {
     TPatient::diagnosis = newDiagnosis;
+}
+
+void TPatient::setIndex(int indexNumber) {
+    index = indexNumber;
 }
 
 // END: STABLE CODE
