@@ -1,0 +1,3 @@
+/home/bek/University/university-tasks/languages-of-programming-cpp/3-laboratory-work/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/bek/University/university-tasks/languages-of-programming-cpp/3-laboratory-work/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/bek/University/university-tasks/languages-of-programming-cpp/3-laboratory-work/cmake-build-debug/CMakeFiles/3_laboratory_work.dir
