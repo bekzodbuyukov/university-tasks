@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <random>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 #define TYPE double
@@ -22,20 +25,26 @@ public:
     friend ostream& operator<<(ostream &out, FractionalNumber &F);
 
     // overloading operators of comparison
-    friend bool operator>(FractionalNumber& LeftObject, FractionalNumber& RightObject);
-    friend bool operator<(FractionalNumber& LeftObject, FractionalNumber& RightObject);
+    friend bool operator>(FractionalNumber &LeftObject, FractionalNumber &RightObject);
+    friend bool operator<(FractionalNumber &LeftObject, FractionalNumber &RightObject);
+
+    // overloading operator of assignment
+    FractionalNumber& operator=(double number);
+
+    // methods
 
 };
 
+template<typename T>
+T roundTheNumber(T number) {
+    T newNumber = round(number * 100.0) / 100.0;
+    return newNumber;
+}
 
-/*// класс: Числитель
-class Numerator : public FractionalNumber {
-
-};
-
-// класс: Знаменатель
-class Denominator : public FractionalNumber {
-
-};*/
+template<typename T>
+T generateRandomNumberInRange(T beginning, T end) {
+    T number = roundTheNumber(beginning + (random() / ( RAND_MAX / (end - beginning))));
+    return number;
+}
 
 #endif //INC_3_LABORATORY_WORK_HEADER_H

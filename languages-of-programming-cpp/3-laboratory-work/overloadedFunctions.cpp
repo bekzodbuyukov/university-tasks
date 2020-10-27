@@ -11,6 +11,7 @@ istream &operator>>(istream &in, FractionalNumber &F) {
 
 ostream &operator<<(ostream &out, FractionalNumber &F) {
     F.fractionalNumber = round((F.numerator / F.denominator) * 100.0) / 100.0;
+    // F.fractionalNumber = sf::rounder(F.numerator / F.denominator);
     out << "Numerator: " << F.numerator << " Denominator: " << F.denominator << " ";
     out << "Fractional number: " << F.fractionalNumber << endl;
     return out;
@@ -21,7 +22,13 @@ bool operator>(FractionalNumber &LeftObject, FractionalNumber &RightObject) {
 }
 
 bool operator<(FractionalNumber &LeftObject, FractionalNumber &RightObject) {
-    return LeftObject.fractionalNumber < RightObject.fractionalNumber;
+    return RightObject.fractionalNumber > LeftObject.fractionalNumber;
+}
+
+FractionalNumber &FractionalNumber::operator=(double number) {
+    denominator = modf(number, &numerator);
+    denominator*= 100;
+    return *this;
 }
 
 
