@@ -6,16 +6,29 @@
 #define INC_3_LABORATORY_WORK_HEADER_H
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
-// класс: Дробное число
+#define TYPE double
+
+// class: Fractional Number
 class FractionalNumber {
-    int nothing;
+    TYPE numerator;                  // numerator part of the fractional number
+    TYPE denominator;                // denominator part of the fractional number
+    TYPE fractionalNumber;
 public:
-    
+    // overloading the operators of input and output
+    friend istream& operator>>(istream &in, FractionalNumber &F);
+    friend ostream& operator<<(ostream &out, FractionalNumber &F);
+
+    // overloading operators of comparison
+    friend bool operator>(FractionalNumber& LeftObject, FractionalNumber& RightObject);
+    friend bool operator<(FractionalNumber& LeftObject, FractionalNumber& RightObject);
+
 };
 
-// класс: Числитель
+
+/*// класс: Числитель
 class Numerator : public FractionalNumber {
 
 };
@@ -23,6 +36,6 @@ class Numerator : public FractionalNumber {
 // класс: Знаменатель
 class Denominator : public FractionalNumber {
 
-};
+};*/
 
 #endif //INC_3_LABORATORY_WORK_HEADER_H
