@@ -2,8 +2,9 @@
 // Created by bek on 27.10.2020.
 //
 
-#include "header.h"
+/*#include "header.h"
 
+// definitions of overloading functions
 istream &operator>>(istream &in, FractionalNumber &F) {
     in >> F.numerator >> F.denominator;
     return in;
@@ -12,8 +13,9 @@ istream &operator>>(istream &in, FractionalNumber &F) {
 ostream &operator<<(ostream &out, FractionalNumber &F) {
     F.fractionalNumber = round((F.numerator / F.denominator) * 100.0) / 100.0;
     // F.fractionalNumber = sf::rounder(F.numerator / F.denominator);
-    out << "Numerator: " << F.numerator << " Denominator: " << F.denominator << " ";
-    out << "Fractional number: " << F.fractionalNumber << endl;
+    *//*out << "Numerator: " << F.numerator << " Denominator: " << F.denominator << " ";
+    out << "Fractional number: " << F.fractionalNumber << endl;*//*
+    out << F.fractionalNumber;
     return out;
 }
 
@@ -29,6 +31,4 @@ FractionalNumber &FractionalNumber::operator=(double number) {
     denominator = modf(number, &numerator);
     denominator*= 100;
     return *this;
-}
-
-
+}*/
