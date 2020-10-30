@@ -54,49 +54,57 @@ public:
     // overloading operator of assignment
     FractionalNumber& operator=(double number) {
         denominator = modf(number, &numerator);
-        denominator*= 100;
+        if (denominator == 0) {
+            denominator = 1;
+        } else {
+            denominator*= 100;
+        }
+        fractionalNumber = numerator / denominator;
+        /*cout << "n: " << numerator << "   d: " << denominator << "   fn: "
+        << fractionalNumber << endl;*/
         return *this;
-    }
+    };
+
+    FractionalNumber& operator=(FractionalNumber &number) {
+        numerator = number.numerator;
+        denominator = number.denominator;
+        fractionalNumber = numerator / denominator;
+        return *this;
+    };
 
     friend FractionalNumber& operator+=(FractionalNumber &LeftObject, FractionalNumber &RightObject) {
-        LeftObject.setFractionalNumber(LeftObject.getFractionalNumber() +
-        RightObject.getFractionalNumber());
+        /*LeftObject.setFractionalNumber(LeftObject.getFractionalNumber() +
+        RightObject.getFractionalNumber());*/
+        /*LeftObject.setFractionalNumber(LeftObject.fractionalNumber +
+        (RightObject.numerator / RightObject.denominator));*/
+        /*double oldFractionalNumber = LeftObject.fractionalNumber;
+        LeftObject.numerator += RightObject.numerator;
+        LeftObject.denominator += RightObject.denominator;
+        LeftObject.setFractionalNumber(oldFractionalNumber + (LeftObject.numerator / LeftObject.denominator));*/
+        double tnum = 0, tdnum = 0;
+        tnum = LeftObject.numerator * RightObject.denominator + RightObject.numerator * LeftObject.denominator;
+        tdnum = RightObject.denominator*LeftObject.denominator;
+        LeftObject.numerator=tnum;
+        LeftObject.denominator = tdnum;
+
+        //   LeftObject.setFractionalNumber((LeftObject.numerator * RightObject.denominator +
+        //   RightObject.numerator * LeftObject.numerator) / (LeftObject.denominator * RightObject.denominator));
+        //   cout << LeftObject.fractionalNumber << " ";
+        /*LeftObject.numerator = RightObject.numerator;
+        LeftObject.denominator = RightObject.denominator;*/
         return LeftObject;
     }
 
     friend FractionalNumber& operator/=(FractionalNumber &LeftObject, double divider) {
-        LeftObject.setFractionalNumber(LeftObject.getFractionalNumber() /
-        divider);
+        /*LeftObject.setFractionalNumber((LeftObject.numerator / (LeftObject.denominator *
+        divider)));*/
+        LeftObject.denominator = LeftObject.denominator * divider;
         return LeftObject;
     }
 
-    /*friend bool operator==(const FractionalNumber &lhs, const FractionalNumber &rhs);
-
-    friend bool operator!=(const FractionalNumber &lhs, const FractionalNumber &rhs);*/
-
-
-
-    // methods
-    /*double operator+(const FractionalNumber &LeftObject, const double &RightObject) {
-        return LeftObject.getFractionalNumber() + RightObject;
-    };*/
-
 };
 
-/*bool operator==(const FractionalNumber &lhs, const FractionalNumber &rhs) {
-    return lhs.fractionalNumber == rhs.fractionalNumber;
-}
-
-bool operator!=(const FractionalNumber &lhs, const FractionalNumber &rhs) {
-    return !(rhs == lhs);
-}*/
-
-/*double operator-(const FractionalNumber &LeftObject, const FractionalNumber &RightObject) {
-    return LeftObject.getFractionalNumber() - RightObject.getFractionalNumber();
-};*/
-
 // template function for rounding number to 0.00 format
-
 /*double roundTheNumber(double number) {
     double newNumber = round(number * 100.0) / 100.0;
     return newNumber;
@@ -110,13 +118,17 @@ double generateRandomNumberInRange(int beginning, int end) {
             * 100.0 )) / 100.0;*/
     //double number = round(randomNumber * 100.0) / 100.0
 
-    std::random_device rd; // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
-    std::uniform_int_distribution<> distr(beginning, end); // define the range
+    random_device rd; // obtain a random number from hardware
+    mt19937 gen(rd()); // seed the generator
+    uniform_int_distribution<> distr(beginning, end - 1); // define the range
+
+    random_device sd; // obtain a random number from hardware
+    mt19937 gens(sd()); // seed the generator
+    uniform_int_distribution<> distrs(beginning, end - 1); // define the range
 
     int end_of_array;
     end_of_array = end - beginning - 1;
-    double number = (round((double)(random() % end_of_array) + (distr(gen)) * 100.0)) / 100.0;
+    double number = (round((double)(distrs(gens)/*random() % end_of_array*/) + (distr(gen)) * 100.0)) / 100.0;
     return number;
 }
 
@@ -179,13 +191,31 @@ void sortArrayRows(T **array, int arraySize) {
     }
 }
 
+// function for sorting the rows of an array
+template<typename T>
+void sortArrayColumns(T **array, int arraySize) {
+    T tempObject{};
+    for (int i = 0; i < arraySize; ++i) {
+        for (int j = 0; j < arraySize; ++j) {
+            // array[i][j] = 0;
+            for (int l = arraySize - 1; l > j; --l) {
+                if (array[i - 1][l] > array[i][l]) {
+                    tempObject = array[i - 1][l];
+                    array[i - 1][l] = array[i][l];
+                    array[i][l] = tempObject;
+                }
+            }
+        }
+    }
+}
+
 // function for calculating the average arithmetic mean of even rows
 template<typename T>
-void calculateAverageArithmeticMeanOfEvenRows(T ** array, int arraySize) {
+void calculateAverageArithmeticMeansOfEvenColumns(T ** array, int arraySize) {
     T sum{};
     sum = 0.0;
-    int counter = 0;
-    for (int i = 0; i < arraySize; ++i) {
+    double counter = 0;
+    /*for (int i = 0; i < arraySize; ++i) {
         if (i % 2 == 0) {
             for (int j = 0; j < arraySize; ++j) {
                 counter += 1;
@@ -193,6 +223,32 @@ void calculateAverageArithmeticMeanOfEvenRows(T ** array, int arraySize) {
             }
             sum /= counter;
             cout << "[" << i << "]: " << sum << endl;
+            counter = 0;
+            sum = 0.0;
+        }
+    }*/
+    cout << "\nAAM for Even Columns:" << endl;
+    for (int j = 0; j < arraySize; ++j) {
+        if (j % 2 == 0) {
+            for (int i = 0; i < arraySize; ++i) {
+                counter += 1.0;
+                sum += array[i][j];
+            }
+            sum /= counter;
+            cout << sum << endl;
+            counter = 0;
+            sum = 0.0;
+        }
+    }
+    cout << "\nAAM for Odd Columns:" << endl;
+    for (int j = 0; j < arraySize; ++j) {
+        if (j % 2 != 0) {
+            for (int i = 0; i < arraySize; ++i) {
+                counter += 1.0;
+                sum += array[i][j];
+            }
+            sum /= counter;
+            cout << sum << endl;
             counter = 0;
             sum = 0.0;
         }
@@ -237,9 +293,8 @@ void subMenu(T **array, int arraySize);
 template<typename T>
 int subMenu(T **array, int arraySize) {
     string menu = "[1] - print\n"
-                  "[2] - sort\n"
-                  "[3] - AAM for even rows\n"
-                  "[4] - AAM for odd rows\n"
+                  "[2] - sort rows\n"
+                  "[3] - AAM for even and odd columns\n"
                   "[m] - return menu\n"
                   "[0] - main menu\n";
 
@@ -257,10 +312,7 @@ int subMenu(T **array, int arraySize) {
         printArray(array, arraySize);
         subMenu(array, arraySize);
     } else if (action == '3') {
-        calculateAverageArithmeticMeanOfEvenRows(array, arraySize);
-        subMenu(array, arraySize);
-    } else if (action == '4') {
-        calculateAverageArithmeticMeanOfOddRows(array, arraySize);
+        calculateAverageArithmeticMeansOfEvenColumns(array, arraySize);
         subMenu(array, arraySize);
     } else if (action == 'm') {
         subMenu(array, arraySize);
@@ -325,6 +377,7 @@ int mainMenu() {
         cin >> end;
         fillArray(array, fractionalNumbersArraySize, beginning, end);
         subMenu(array, fractionalNumbersArraySize);
+        mainMenu();
     } else if (action == 'q') {
         char quitConfirmation;
         cout << "Are you sure you want to quit? [y/n]: ";
