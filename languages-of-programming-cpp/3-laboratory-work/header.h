@@ -140,7 +140,6 @@ void sortArrayRows(T **array, int arraySize) {
     T tempObject{};
     for (int i = 0; i < arraySize; ++i) {
         for (int j = 0; j < arraySize; ++j) {
-            // array[i][j] = 0;
             for (int l = arraySize - 1; l > j; --l) {
                 if (array[i][l - 1] > array[i][l]) {
                     tempObject = array[i][l - 1];
